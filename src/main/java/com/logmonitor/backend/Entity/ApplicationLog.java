@@ -8,7 +8,6 @@ import java.time.LocalTime;
 @Table(name="application_log")
 
 public class ApplicationLog {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -35,7 +34,6 @@ public class ApplicationLog {
     private LocalDateTime CreateAt;
 
 // getter and setter
-
 
     public Long getId() {
         return id;
