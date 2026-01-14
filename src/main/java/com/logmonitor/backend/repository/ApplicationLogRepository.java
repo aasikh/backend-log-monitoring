@@ -9,5 +9,5 @@ public interface ApplicationLogRepository extends JpaRepository <ApplicationLog,
         String ServiceName ,
         String ErrorMessage
     );
-
 }
+
