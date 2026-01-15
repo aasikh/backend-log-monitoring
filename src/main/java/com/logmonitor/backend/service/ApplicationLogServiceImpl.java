@@ -2,12 +2,13 @@ package com.logmonitor.backend.service;
 
 import com.logmonitor.backend.Entity.ApplicationLog;
 import com.logmonitor.backend.repository.ApplicationLogRepository;
+import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
+
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Optional;
 
+import java.util.Optional;
+@Service
 public class ApplicationLogServiceImpl implements ApplicationLogService {
 
     private final ApplicationLogRepository repository;
@@ -18,18 +19,22 @@ public class ApplicationLogServiceImpl implements ApplicationLogService {
 
     @Override
     public void processLog(ApplicationLog log) {
-        Optional result = repository.findByApplicationNameAndServiceNameAndErrorMessage(
+        Optional<ApplicationLog> result = repository.findByApplicationNameAndServiceNameAndErrorMessage(
                 log.getApplicationName(),
                 log.getServiceName(),
                 log.getErrorMessage()
         );
 if(result.isPresent()){
-    ApplicationLog dbLog = result.get();
-    int currentCount = dbLog.getCount();
-    dbLog.setCount(currentCount + 1);
-    dbLog.getLastSeen(LocalTime);
+   ApplicationLog dbLog = result.get();
+   dbLog.setCount(dbLog.getCount() + 1);
+   dbLog.setLastSeen(LocalDateTime.now());
+   repository.save(dbLog);
 }else {
-
+log.setCount(1);
+log.setLastSeen(LocalDateTime.now());
+log.setFirstSeen(LocalDateTime.now());
+repository.save(log);
 }
     }
 }
+
