@@ -5,5 +5,5 @@ import com.logmonitor.backend.Entity.ApplicationLog;
 
 public interface ApplicationLogService {
 
-    public void processLog(ApplicationLog log);
+    public void processLog(String apiKey, ApplicationLog log);
 }

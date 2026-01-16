@@ -18,19 +18,19 @@ public class ApplicationLogServiceImpl implements ApplicationLogService {
     }
 
     @Override
-    public void processLog(ApplicationLog log) {
-        Optional<ApplicationLog> result = repository.findByApplicationNameAndServiceNameAndErrorMessage(
-                log.getApplicationName(),
+    public void processLog(String apiKey, ApplicationLog log) {
+        Optional<ApplicationLog> result = repository.findByApplicationAndServiceNameAndErrorMessage(
+               log.getApplication(),
                 log.getServiceName(),
                 log.getErrorMessage()
         );
 if(result.isPresent()){
    ApplicationLog dbLog = result.get();
-   dbLog.setCount(dbLog.getCount() + 1);
+   dbLog.setCount(dbLog.getCount() + 1L);
    dbLog.setLastSeen(LocalDateTime.now());
    repository.save(dbLog);
 }else {
-log.setCount(1);
+log.setCount(1L);
 log.setLastSeen(LocalDateTime.now());
 log.setFirstSeen(LocalDateTime.now());
 repository.save(log);
